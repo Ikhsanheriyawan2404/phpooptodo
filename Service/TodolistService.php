@@ -7,8 +7,8 @@ namespace Service {
 
 	interface TodolistService {
 
-		function showTodoList(): void;
-		function addTodoList(string $todo): void;
+		function showTodolist(): void;
+		function addTodolist(string $todo): void;
 		function removeTodolist(int $number): void;
 
 	}
@@ -29,18 +29,24 @@ namespace Service {
 			echo "--------------------" . PHP_EOL;
 			$todolist = $this->todolistRepository->findAll();
 			foreach ($todolist as $number => $value) {
-				echo "$number. $value" . PHP_EOL;
+				echo "$number. " . $value->getTodo() . PHP_EOL;
 			}
 		}
 
-		function addTodoList(string $todo): void
+		function addTodolist(string $todo): void
 		{
-			//
+			$todolist = new Todolist($todo);
+			$this->todolistRepository->save($todolist);
+			echo "SUKSES MENAMBAH TODOLIST" . PHP_EOL;
 		}
 
 		function removeTodolist(int $number): void
 		{
-			//
+			if ($this->todolistRepository->remove($number)) {
+				echo "BERHASIL MENGHAPUS TODOLIST" . PHP_EOL;
+			} else {
+				echo "GAGAL MENGHAPUS TODOLIST" . PHP_EOL;
+			}
 		}
 	}
 
